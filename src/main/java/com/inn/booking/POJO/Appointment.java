@@ -43,10 +43,22 @@ public class Appointment {
 
 	@Column(name = "name")
 	private String name;
-	
+//	@Column(name = "email")
+//	private String email;
+//	@Column(name = "dob")
+//	private String dob;
+//	@Column(name = "phone")
+//	private String phone;
+//	@Column(name = "date")
+//	private String date;
+//	@Column(name = "time")
+//	private String time;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_fk",nullable = false)
 	private Category category;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "user_fk",nullable = false)
+//	private User user;
 	
 	@Column(name = "description")
 	private String description;
