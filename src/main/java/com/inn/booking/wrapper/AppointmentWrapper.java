@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 public class AppointmentWrapper {
 	Integer id;
 	String name;
+//	String email;
+//	String dob;
+//	String phone;
+//	String date;
+//	String time;
 	String description;
 	String status;
 	Integer price;

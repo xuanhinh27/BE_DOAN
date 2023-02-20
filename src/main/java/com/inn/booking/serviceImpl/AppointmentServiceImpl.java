@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.inn.booking.POJO.User;
+import com.inn.booking.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     AppointmentDao productDao;
     @Autowired
     JwtFilter jwtFilter;
+	@Autowired
+	EmailUtils emailUtils;
 	@Override
 	public ResponseEntity<String> addNewAppointment(Map<String, String> requestMap) {
 		try {
 			if(jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
 					productDao.save(getAppointmentFromMap(requestMap,false));
+					emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
 					return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
@@ -58,9 +63,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private Appointment getAppointmentFromMap(Map<String, String> requestMap, boolean isAdd) {
 		Category category = new Category();
 		category.setId(Integer.parseInt(requestMap.get("categoryId")));
-		
+
+
+
+
 		Appointment appointment = new Appointment();
-		
+
 		if(isAdd) {
 			appointment.setId(Integer.parseInt(requestMap.get("id")));
 		}else {
@@ -68,6 +76,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		appointment.setCategory(category);
 		appointment.setName(requestMap.get("name"));
+//		appointment.setEmail(requestMap.get("email"));
+//		appointment.setDob(requestMap.get("dob"));
+//		appointment.setPhone(requestMap.get("phone"));
+//		appointment.setDate(requestMap.get("date"));
+//		appointment.setTime(requestMap.get("time"));
 		appointment.setDescription(requestMap.get("description"));
 		appointment.setPrice(Integer.parseInt(requestMap.get("price")));
 		return appointment;
