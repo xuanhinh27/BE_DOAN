@@ -93,7 +93,10 @@ public class UserServiceImpl implements UserService {
 					new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
 			if(authentication.isAuthenticated()) {
 				if(customerUsersDetailsService.getUserDetails().getStatus().equalsIgnoreCase("true")) {
-					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\"}",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\"," +
+							"\"role\":\""+customerUsersDetailsService.getUserDetails().getRole()+"\"," +
+							"\"phone\":\""+customerUsersDetailsService.getUserDetails().getContactNumber()+"\"," +
+							"\"name\":\""+customerUsersDetailsService.getUserDetails().getName()+"\"}",HttpStatus.OK);
 				}else {
 					return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval"+"\"}",HttpStatus.OK);
 				}
@@ -143,9 +146,9 @@ public class UserServiceImpl implements UserService {
 	private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
 		allAdmin.remove(jwtFilter.getCurrentUser());
 		if(status != null && status.equalsIgnoreCase("true") ) {
-			emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Approved", "USER:-"+user+"\n is approuved by\nADMIN:-"+jwtFilter.getCurrentUser()	, allAdmin);
+			emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Bạn đã được cấp quyền truy cập Smile4You", "Tài khoản:-"+user+"\n đã được cấp quyền bởi \nADMIN:-"+jwtFilter.getCurrentUser()	, allAdmin);
 		}else {
-			emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Account Disabled", "USER:-"+user+"\n is disabled by\nADMIN:-"+jwtFilter.getCurrentUser()	, allAdmin);
+			emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(), "Tài khoản Smile4You của bạn đã bị khoá", "Tài khoản:-"+user+"\n đã bị khoá bởi \nADMIN:-"+jwtFilter.getCurrentUser()	, allAdmin);
 		}
 		
 	}
