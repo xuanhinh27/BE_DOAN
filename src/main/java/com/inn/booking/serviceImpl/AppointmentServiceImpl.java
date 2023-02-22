@@ -35,7 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			if(jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
 					productDao.save(getAppointmentFromMap(requestMap,false));
-					emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
+					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
 					return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
@@ -64,7 +64,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Category category = new Category();
 		category.setId(Integer.parseInt(requestMap.get("categoryId")));
 
-
+//		User user = new User();
+//		user.setId(Integer.parseInt(requestMap.get("userId")));
 
 
 		Appointment appointment = new Appointment();
@@ -76,11 +77,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		appointment.setCategory(category);
 		appointment.setName(requestMap.get("name"));
-//		appointment.setEmail(requestMap.get("email"));
-//		appointment.setDob(requestMap.get("dob"));
-//		appointment.setPhone(requestMap.get("phone"));
-//		appointment.setDate(requestMap.get("date"));
-//		appointment.setTime(requestMap.get("time"));
+		appointment.setEmail(requestMap.get("email"));
+		appointment.setDob(requestMap.get("dob"));
+		appointment.setPhone(requestMap.get("phone"));
+		appointment.setDate(requestMap.get("date"));
+		appointment.setTime(requestMap.get("time"));
 		appointment.setDescription(requestMap.get("description"));
 		appointment.setPrice(Integer.parseInt(requestMap.get("price")));
 		return appointment;

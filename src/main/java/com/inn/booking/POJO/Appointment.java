@@ -18,7 +18,7 @@ import lombok.Data;
 
 
 @NamedQuery(name = "Appointment.getAllAppointment",
-query="select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.description,p.status,p.price,p.category.id,p.category.name) from Appointment p")
+query="select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.email,p.dob,p.phone,p.date,p.description,p.time,p.status,p.price,p.category.id,p.category.name) from Appointment p")
 
 @NamedQuery(name="Appointment.updateAppointmentStatus",
 query = "update Appointment p set p.status=:status where p.id=:id")
@@ -43,16 +43,16 @@ public class Appointment {
 
 	@Column(name = "name")
 	private String name;
-//	@Column(name = "email")
-//	private String email;
-//	@Column(name = "dob")
-//	private String dob;
-//	@Column(name = "phone")
-//	private String phone;
-//	@Column(name = "date")
-//	private String date;
-//	@Column(name = "time")
-//	private String time;
+	@Column(name = "email")
+	private String email;
+	@Column(name = "dob")
+	private String dob;
+	@Column(name = "phone")
+	private String phone;
+	@Column(name = "date")
+	private String date;
+	@Column(name = "time")
+	private String time;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_fk",nullable = false)
 	private Category category;
