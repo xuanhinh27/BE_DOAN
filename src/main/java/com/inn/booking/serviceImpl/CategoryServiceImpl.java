@@ -66,10 +66,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public ResponseEntity<List<Category>> gatAllCategory(String filterValue) {
 		try {
-			if(!Strings.isNullOrEmpty(filterValue) && filterValue.equals("true")) {
+//			if(!Strings.isNullOrEmpty(filterValue) && filterValue.equals("true")) {
 				return new ResponseEntity<List<Category>>(categoryDao.getAllCategory(), HttpStatus.OK);
-			}
-			return new ResponseEntity<List<Category>>(categoryDao.findAll(),HttpStatus.OK);
+//			}
+//			return new ResponseEntity<List<Category>>(categoryDao.findAll(),HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

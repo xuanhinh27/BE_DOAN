@@ -1,15 +1,6 @@
 package com.inn.booking.POJO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,16 +9,16 @@ import lombok.Data;
 
 
 @NamedQuery(name = "Appointment.getAllAppointment",
-query="select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.email,p.dob,p.phone,p.date,p.description,p.time,p.status,p.price,p.category.id,p.category.name) from Appointment p")
+		query="select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.email,p.dob,p.phone,p.date,p.description,p.time,p.status,p.category.id,p.category.name,p.user.id,p.user.name) from Appointment p")
 
 @NamedQuery(name="Appointment.updateAppointmentStatus",
 query = "update Appointment p set p.status=:status where p.id=:id")
 
 @NamedQuery(name="Appointment.getAppointmentByCategory",
-query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name) from Appointment p where p.category.id=:id and p.status='true'")
+query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.user.id,p.user.name,p.date,p.time,p.status) from Appointment p where p.user.id=:id and p.status='true'")
 
 @NamedQuery(name = "Appointment.getAppointmentById",
-query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.description,p.price) from Appointment p where p.category.id=:id and p.status='true'")
+query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.description) from Appointment p where p.category.id=:id and p.status='true'")
 
 @Data
 @Entity
@@ -35,7 +26,7 @@ query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.des
 @DynamicUpdate
 @Table(name = "appointment")
 public class Appointment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -54,17 +45,14 @@ public class Appointment {
 	@Column(name = "time")
 	private String time;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_fk",nullable = false)
+	@JoinColumn(name = "category_fk")
 	private Category category;
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_fk",nullable = false)
-//	private User user;
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_fk")
+	private User user;
+
 	@Column(name = "description")
 	private String description;
-	
-	@Column(name = "price")
-	private Integer price;
 	
 	@Column(name = "status")
 	private String status;

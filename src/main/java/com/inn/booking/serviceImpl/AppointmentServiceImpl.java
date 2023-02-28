@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public ResponseEntity<String> addNewAppointment(Map<String, String> requestMap) {
 		try {
-			if(jwtFilter.isAdmin()) {
+//			if(!jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
 					productDao.save(getAppointmentFromMap(requestMap,false));
 					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
@@ -40,9 +40,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
 				
-			}else {
-				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
-			}
+//			}else {
+//				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,8 +64,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Category category = new Category();
 		category.setId(Integer.parseInt(requestMap.get("categoryId")));
 
-//		User user = new User();
-//		user.setId(Integer.parseInt(requestMap.get("userId")));
+		User user = new User();
+		user.setId(Integer.parseInt(requestMap.get("userId")));
 
 
 		Appointment appointment = new Appointment();
@@ -76,6 +76,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment.setStatus("true");
 		}
 		appointment.setCategory(category);
+		appointment.setUser(user);
 		appointment.setName(requestMap.get("name"));
 		appointment.setEmail(requestMap.get("email"));
 		appointment.setDob(requestMap.get("dob"));
@@ -83,7 +84,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setDate(requestMap.get("date"));
 		appointment.setTime(requestMap.get("time"));
 		appointment.setDescription(requestMap.get("description"));
-		appointment.setPrice(Integer.parseInt(requestMap.get("price")));
 		return appointment;
 	}
 

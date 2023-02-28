@@ -17,20 +17,29 @@ public class AppointmentWrapper {
 	String time;
 	String description;
 	String status;
-	Integer price;
+
 	Integer categoryId;
 	String categoryName;
 
-	public AppointmentWrapper(Integer id, String name,String description,Integer price) {
+	Integer userId;
+	String userName;
+
+	public AppointmentWrapper(Integer id, String name,String description) {
 		this.id=id;
 		this.name=name;
 		this.description=description;
-		this.price=price;
+
+
 	}
 	
-	public AppointmentWrapper(Integer id, String name) {
+	public AppointmentWrapper(Integer id, String name,Integer userId,String userName,String date,String time,String status) {
 		this.id=id;
 		this.name=name;
+		this.userId=userId;
+		this.userName=userName;
+		this.date = date;
+		this.time = time;
+		this.status = status;
 	}
 	
 

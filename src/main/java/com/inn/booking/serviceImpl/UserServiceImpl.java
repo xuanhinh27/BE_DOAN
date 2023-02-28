@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 					new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
 			if(authentication.isAuthenticated()) {
 				if(customerUsersDetailsService.getUserDetails().getStatus().equalsIgnoreCase("true")) {
-					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\"}",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\",\"role\":\""+ customerUsersDetailsService.getUserDetails().getRole()+"\"}",HttpStatus.OK);
 				}else {
 					return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval"+"\"}",HttpStatus.OK);
 				}
@@ -107,11 +107,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<List<UserWrapper>> getAllUser() {
 		try {
-			if(jwtFilter.isAdmin()) {
+//			if(jwtFilter.isAdmin()) {
 				return new ResponseEntity<List<UserWrapper>>(userDao.getAllUser(),HttpStatus.OK);
-			}else {
-				return new ResponseEntity<List<UserWrapper>>(new ArrayList<>(),HttpStatus.UNAUTHORIZED);
-			}
+//			}else {
+//				return new ResponseEntity<List<UserWrapper>>(new ArrayList<>(),HttpStatus.UNAUTHORIZED);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
