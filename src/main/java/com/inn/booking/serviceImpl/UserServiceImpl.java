@@ -93,7 +93,9 @@ public class UserServiceImpl implements UserService {
 					new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
 			if(authentication.isAuthenticated()) {
 				if(customerUsersDetailsService.getUserDetails().getStatus().equalsIgnoreCase("true")) {
-					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\",\"role\":\""+ customerUsersDetailsService.getUserDetails().getRole()+"\"}",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"token\":\""+jwtUtil.generateToken(customerUsersDetailsService.getUserDetails().getEmail(), customerUsersDetailsService.getUserDetails().getRole())+"\"," +
+							"\"role\":\""+ customerUsersDetailsService.getUserDetails().getRole()+"\"" +
+							",\"userID\":\""+ customerUsersDetailsService.getUserDetails().getId()+"\"}",HttpStatus.OK);
 				}else {
 					return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval"+"\"}",HttpStatus.OK);
 				}
