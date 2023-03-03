@@ -34,9 +34,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 //			if(!jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
-					productDao.save(getAppointmentFromMap(requestMap,false));
+					var a = productDao.save(getAppointmentFromMap(requestMap,false));
 					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
-					return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Đặt lịch thành công"+"\",\"id\":  "+a.getId() +" ,\"message\": "+ true+" }",HttpStatus.OK);
+
+					//return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
 				
@@ -73,7 +75,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(isAdd) {
 			appointment.setId(Integer.parseInt(requestMap.get("id")));
 		}else {
-			appointment.setStatus("true");
+			appointment.setStatus("false");
 		}
 		appointment.setCategory(category);
 		appointment.setUser(user);
@@ -146,7 +148,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
 		try {
-			if(jwtFilter.isAdmin()) {
+//			if(jwtFilter.isAdmin()) {
 				Optional<Appointment> optional = productDao.findById(Integer.parseInt(requestMap.get("id")));
 				if(!optional.isEmpty()) {
 					productDao.updateAppointmentStatus(requestMap.get("status"),Integer.parseInt(requestMap.get("id")));
@@ -154,9 +156,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 				}else {
 					return CafeUtils.getResponseEntity("Appointment id does not exist.", HttpStatus.OK);
 				}
-			}else {
-				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
-			}
+//			}else {
+//				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
