@@ -34,9 +34,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 //			if(!jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
-					productDao.save(getAppointmentFromMap(requestMap,false));
+				var a  = 	productDao.save(getAppointmentFromMap(requestMap,false));
+
+
 					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
-					return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
+				//	return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Đặt lịch thành công"+"\",\"id\":  "+a.getId() +" ,\"message\": "+ true+" }",HttpStatus.OK);
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
 				
