@@ -32,7 +32,7 @@ public class AppointmentWrapper {
 
 	}
 	
-	public AppointmentWrapper(Integer id, String name,Integer userId,String userName,String date,String time,String status) {
+	public AppointmentWrapper(Integer id, String name,Integer userId,String userName,String date,String time,String status,String description) {
 		this.id=id;
 		this.name=name;
 		this.userId=userId;
@@ -40,6 +40,7 @@ public class AppointmentWrapper {
 		this.date = date;
 		this.time = time;
 		this.status = status;
+		this.description = description;
 	}
 	
 

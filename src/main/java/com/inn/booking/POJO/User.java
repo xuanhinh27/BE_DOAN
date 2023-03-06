@@ -15,7 +15,7 @@ import lombok.Data;
 
 @NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.email=:email")
 @NamedQuery(name = "User.getAllUser",
-query = "select new com.inn.booking.wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber,u.role,u.status) from User u where u.role='user'")
+query = "select new com.inn.booking.wrapper.UserWrapper(u.id,u.name,u.email,u.contactNumber,u.role,u.status) from User u where u.role='dentist'")
 @NamedQuery(name = "User.updateStatus",query = "update User u set u.status=:status where u.id=:id ")
 @NamedQuery(name = "User.getAllAdmin",query = "select u.email from User u where u.role='admin'")
 

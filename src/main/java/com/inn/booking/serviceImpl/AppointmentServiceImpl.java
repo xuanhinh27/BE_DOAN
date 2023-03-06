@@ -36,7 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 				if(validateAppointmentMap(requestMap,false)) {
 					var a = productDao.save(getAppointmentFromMap(requestMap,false));
 					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
-					return new ResponseEntity<String>("{\"message\":\""+"Đặt lịch thành công"+"\",\"id\":  "+a.getId() +" ,\"message\": "+ true+" }",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Đặt lịch thành công"+"\",\"id\":  "+a.getId() +" ,\"status\": "+ true+" }",HttpStatus.OK);
 
 					//return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
 				}
