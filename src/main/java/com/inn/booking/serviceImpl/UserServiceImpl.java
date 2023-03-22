@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 							"\"role\":\""+ customerUsersDetailsService.getUserDetails().getRole()+"\"" +
 							",\"userID\":\""+ customerUsersDetailsService.getUserDetails().getId()+"\"}",HttpStatus.OK);
 				}else {
-					return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval"+"\"}",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Tài khoản đang bị khóa"+"\"}",HttpStatus.OK);
 				}
 			}
 		} catch (Exception e) {
@@ -130,9 +130,9 @@ public class UserServiceImpl implements UserService {
 			  if(!optional.isEmpty()) {
 				  userDao.updateStatus(requestMap.get("status"),Integer.parseInt(requestMap.get("id")));
 				  sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(),userDao.getAllAdmin());
-				  return CafeUtils.getResponseEntity("User updated successfully", HttpStatus.OK);
+				  return new ResponseEntity<String>("{\"message\":\""+"Cập nhật tài khoản thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 			  }else {
-				return  CafeUtils.getResponseEntity("User id does not exist", HttpStatus.OK);
+				  return new ResponseEntity<String>("{\"message\":\""+"Tài khoản không tồn tại"+"\", \"status\": "+ false+" }",HttpStatus.OK);
 			  }
 				
 			}else {
@@ -167,9 +167,9 @@ public class UserServiceImpl implements UserService {
 				if(userObj.getPassword().equals(requestMap.get("oldPassword"))) {
 					userObj.setPassword(requestMap.get("newPassword"));
 					userDao.save(userObj);
-					return CafeUtils.getResponseEntity("Password updated Successfully.", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Cập nhật mật khẩu thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 				}
-				return CafeUtils.getResponseEntity("Incorrect Old Password", HttpStatus.BAD_REQUEST);
+				return CafeUtils.getResponseEntity("Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST);
 			}
 			return CafeUtils.getResponseEntity(CafeConstants.SOMTHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
@@ -184,8 +184,8 @@ public class UserServiceImpl implements UserService {
 		try {
 			User user = userDao.findByEmail(requestMap.get("email"));
 			if(!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail())) {
-				emailUtils.forgotMail(user.getEmail(), "Credentials by Cafe Management System", user.getPassword());
-			return CafeUtils.getResponseEntity("Check your mail for Credentials.", HttpStatus.OK);
+				emailUtils.forgotMail(user.getEmail(), "Mật khẩu truy cập hệ thống", user.getPassword());
+				return new ResponseEntity<String>("{\"message\":\""+"Kiểm tra email"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
