@@ -81,7 +81,7 @@ public class BillServiceImpl implements BillService {
 				table.setWidthPercentage(100);
 				addTableHeader(table);
 
-				JSONArray jsonArray = CafeUtils.getJsonArrayFromString((String) requestMap.get("productDetails"));
+				JSONArray jsonArray = CafeUtils.getJsonArrayFromString((String) requestMap.get("appointmentDetails"));
 				for (int i = 0; i < jsonArray.length(); i++) {
 					addRows(table, CafeUtils.getMapFromJson(jsonArray.getString(i)));
 				}
@@ -183,7 +183,7 @@ public class BillServiceImpl implements BillService {
 	private boolean validateRequestMap(Map<String, Object> requestMap) {
 		return requestMap.containsKey("name") && requestMap.containsKey("contactNumber")
 				&& requestMap.containsKey("email") && requestMap.containsKey("paymentMethod")
-				&& requestMap.containsKey("productDetails") && requestMap.containsKey("totalAmount");
+				&& requestMap.containsKey("appointmentDetails") && requestMap.containsKey("totalAmount");
 	}
 	
 	
