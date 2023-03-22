@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 			if(jwtFilter.isAdmin()) {
 				if(validateCategoryMap(reqestMap,false)) {
 					categoryDao.save(getCategoryFromMap(reqestMap, false));
-					return CafeUtils.getResponseEntity("Cafe Added Successfully", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Thêm dịch vụ thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 				}
 			}else {
 				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
@@ -60,6 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
 			category.setId(Integer.parseInt(requsetMap.get("id")));
 		}
 		category.setName(requsetMap.get("name"));
+		category.setPrice(requsetMap.get("price"));
+		category.setDescrip(requsetMap.get("descrip"));
 		return category;
 	}
 
@@ -84,9 +86,9 @@ public class CategoryServiceImpl implements CategoryService {
 					Optional<Category> optional = categoryDao.findById(Integer.parseInt(requestMap.get("id")));
 					if(!optional.isEmpty()) {
 						categoryDao.save(getCategoryFromMap(requestMap, true));
-						return CafeUtils.getResponseEntity("Category Updated Successfully", HttpStatus.OK);
+						return new ResponseEntity<String>("{\"message\":\""+"Cập nhật dịch vụ thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 					}else {
-						return CafeUtils.getResponseEntity("Category id does not exist.", HttpStatus.BAD_REQUEST);
+						return CafeUtils.getResponseEntity("Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST);
 					}
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);

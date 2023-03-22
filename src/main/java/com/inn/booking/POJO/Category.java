@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import lombok.Data;
 
 @NamedQuery(name = "Category.getAllCategory",
-query="select c from Category c where c.id in (select p.category from Appointment p where p.status='true')")
+query="select c from Category c where c.id in (select p.category from Appointment p )")
 
 
 @Data
@@ -27,8 +27,11 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	
 	@Column(name = "name")
 	private String name;
+	@Column(name = "price")
+	private String price;
+	@Column(name = "descrip")
+	private String descrip;
 
 }

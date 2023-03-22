@@ -71,7 +71,7 @@ public class BillServiceImpl implements BillService {
 				document.open();
 				setRectanguleInPdf(document);
 
-				Paragraph chunk = new Paragraph("Cafe Managment System", getFont("Header"));
+				Paragraph chunk = new Paragraph("Nha khoa Smile4You", getFont("Header"));
 				chunk.setAlignment(Element.ALIGN_CENTER);
 				document.add(chunk);
 				Paragraph paragraph = new Paragraph(data + "\n \n", getFont("data"));
@@ -237,7 +237,7 @@ public class BillServiceImpl implements BillService {
 			Optional<Bill> optional = billDao.findById(id);
 			if(!optional.isEmpty()) {
 				billDao.deleteById(id);
-				return CafeUtils.getResponseEntity("Bill Deleted Successfully", HttpStatus.OK);
+				return new ResponseEntity<String>("{\"message\":\""+"Xóa hóa đơn thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 			}
 			return CafeUtils.getResponseEntity("Bill id does not exist", HttpStatus.OK);
 		} catch (Exception e) {
