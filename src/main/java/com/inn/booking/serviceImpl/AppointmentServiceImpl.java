@@ -34,15 +34,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 //			if(!jwtFilter.isAdmin()) {
 				if(validateAppointmentMap(requestMap,false)) {
-					productDao.save(getAppointmentFromMap(requestMap,false));
+					var a = productDao.save(getAppointmentFromMap(requestMap,false));
 					//emailUtils.forgotMail("hinh.dx2k@gmail.com", "dat lich", "thanhcong");
-					return CafeUtils.getResponseEntity("Appointment Added successfully", HttpStatus.OK);
+					emailUtils.appointmentSuccess(a.getEmail(), "Credentials by Cafe Management System","http://localhost:50917/appointment?id="+a.getId()+"&status=true");
+					return new ResponseEntity<String>("{\"message\":\""+"Đặt lịch thành công"+"\",\"id\":  "+a.getId() +" ,\"status\": "+ true+" }",HttpStatus.OK);
 				}
 				return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
-				
-//			}else {
-//				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
-//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +70,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(isAdd) {
 			appointment.setId(Integer.parseInt(requestMap.get("id")));
 		}else {
-			appointment.setStatus("true");
+			appointment.setStatus("false");
 		}
 		appointment.setCategory(category);
 		appointment.setUser(user);
@@ -107,9 +104,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 						Appointment appointment = getAppointmentFromMap(requestMap, true);
 						appointment.setStatus(optional.get().getStatus());
 						productDao.save(appointment);
-						return CafeUtils.getResponseEntity("Appointment Updated successfully", HttpStatus.OK);
+						return new ResponseEntity<String>("{\"message\":\""+"Cập nhật lịch hẹn thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 					}else {
-						return CafeUtils.getResponseEntity("Appointment id does not exist.", HttpStatus.OK);
+						return new ResponseEntity<String>("{\"message\":\""+"Lịch hẹn không tồn tại"+"\", \"status\": "+ false+" }",HttpStatus.OK);
 					}
 				}else {
 					return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
@@ -126,17 +123,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public ResponseEntity<String> deleteAppointment(Integer id) {
 		try {
-			if(jwtFilter.isAdmin()) {
 				Optional<Appointment> optional = productDao.findById(id);
 				if(!optional.isEmpty()) {
 					productDao.deleteById(id);
-					return CafeUtils.getResponseEntity("Appointment Deleted Successfully",HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Hủy lịch hẹn thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 				}else {
-					return CafeUtils.getResponseEntity("Appointment id does not exist.", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Lịch hẹn không tồn tại"+"\", \"status\": "+ false+" }",HttpStatus.OK);
 				}
-			}else {
-				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,17 +139,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
 		try {
-			if(jwtFilter.isAdmin()) {
+//			if(jwtFilter.isAdmin()) {
 				Optional<Appointment> optional = productDao.findById(Integer.parseInt(requestMap.get("id")));
 				if(!optional.isEmpty()) {
 					productDao.updateAppointmentStatus(requestMap.get("status"),Integer.parseInt(requestMap.get("id")));
-					return CafeUtils.getResponseEntity("Appointment Status Updated Successfully", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Cập nhật trạng thái lịch hẹn thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
 				}else {
-					return CafeUtils.getResponseEntity("Appointment id does not exist.", HttpStatus.OK);
+					return new ResponseEntity<String>("{\"message\":\""+"Lịch hẹn không tồn tại"+"\", \"status\": "+ false+" }",HttpStatus.OK);
+
 				}
-			}else {
-				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
-			}
+//			}else {
+//				return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZATION_ACCESS, HttpStatus.UNAUTHORIZED);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

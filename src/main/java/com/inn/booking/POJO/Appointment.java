@@ -15,10 +15,10 @@ import lombok.Data;
 query = "update Appointment p set p.status=:status where p.id=:id")
 
 @NamedQuery(name="Appointment.getAppointmentByCategory",
-query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.user.id,p.user.name,p.date,p.time,p.status) from Appointment p where p.user.id=:id and p.status='true'")
+query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.user.id,p.user.name,p.date,p.time,p.status) from Appointment p where p.user.id=:id ")
 
 @NamedQuery(name = "Appointment.getAppointmentById",
-query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.description) from Appointment p where p.category.id=:id and p.status='true'")
+query = "select new com.inn.booking.wrapper.AppointmentWrapper(p.id,p.name,p.email,p.dob,p.phone,p.date,p.description,p.time,p.status,p.category.id,p.category.name,p.user.id,p.user.name) from Appointment p where p.id=:id ")
 
 @Data
 @Entity

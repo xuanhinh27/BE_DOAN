@@ -52,9 +52,11 @@ public class UserServiceImpl implements UserService {
         	User user = userDao.findByEmailId(requestMap.get("email"));
         	if(Objects.isNull(user)) {
         		userDao.save(getUserFromMap(requestMap));
-        		return CafeUtils.getResponseEntity("Successfully Registred.", HttpStatus.OK);
+				return new ResponseEntity<String>("{\"message\":\""+"Tạo tài khoản thành công"+"\" ,\"status\": "+ true+" }",HttpStatus.OK);
+        	//	return CafeUtils.getResponseEntity("Đăng ký tài khoản thành công", HttpStatus.OK);
         	}else {
-        		return CafeUtils.getResponseEntity("Email already exists.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>("{\"message\":\""+"Tài khoản đã tồn tại"+"\" ,\"status\": "+ false+" }",HttpStatus.BAD_REQUEST);
+        		//return CafeUtils.getResponseEntity("Email already exists.", HttpStatus.BAD_REQUEST);
         	}
         }else {
         	return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
@@ -79,8 +81,8 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(requestMap.get("email"));
 		user.setContactNumber(requestMap.get("contactNumber"));
 		user.setPassword(requestMap.get("password"));
-		user.setStatus("false");
-		user.setRole("user");
+		user.setStatus("true");
+		user.setRole(requestMap.get("role"));
 		return user;
 		
 	}

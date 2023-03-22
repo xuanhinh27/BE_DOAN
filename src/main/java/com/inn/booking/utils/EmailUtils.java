@@ -43,7 +43,17 @@ public class EmailUtils {
 		helper.setFrom("dxhinh2k@gmail.com");
 		helper.setTo(to);
 		helper.setSubject(subject);
-		String htmlMsg = "<p><b>Your Login details for Cafe Management System</b><br><b>Email: </b> " + to + " <br><b>Password: </b> " + password + "<br><a href=\"http://localhost:4200/\">Click here to login</a></p>";
+		String htmlMsg = "<p><b>Tài khoản đăng nhập hệ thống của bạn</b><br><b>Email: </b> " + to + " <br><b>Password: </b> " + password + "<br><a href=\"http://localhost:4200/\">Click here to login</a></p>";
+		message.setContent(htmlMsg,"text/html");
+		emailSender.send(message);
+	}
+	public void appointmentSuccess(String to,String subject,String link) throws MessagingException{
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message,true);
+		helper.setFrom("dxhinh2k@gmail.com");
+		helper.setTo(to);
+		helper.setSubject(subject);
+		String htmlMsg = "<p><b>Đặt lịch thành công</b><br><b>Email: </b> " + to + " <br><b>Truy cập đường link sau để xem lại thông cuộc hẹn: </b> " + link + "<br> </p>";
 		message.setContent(htmlMsg,"text/html");
 		emailSender.send(message);
 	}
